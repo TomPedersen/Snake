@@ -33,7 +33,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.labelScore = new System.Windows.Forms.Label();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.eventLog1 = new System.Diagnostics.EventLog();
             ((System.ComponentModel.ISupportInitialize)(this.GameWorld)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.SuspendLayout();
             // 
             // GameWorld
@@ -44,6 +46,7 @@
             this.GameWorld.TabIndex = 0;
             this.GameWorld.TabStop = false;
             this.GameWorld.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.GameWorld.Paint += new System.Windows.Forms.PaintEventHandler(this.GameWorld_Paint);
             // 
             // label1
             // 
@@ -65,6 +68,10 @@
             this.labelScore.Size = new System.Drawing.Size(0, 37);
             this.labelScore.TabIndex = 2;
             // 
+            // eventLog1
+            // 
+            this.eventLog1.SynchronizingObject = this;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -77,6 +84,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GameWorld)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -88,6 +96,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelScore;
         private System.Windows.Forms.Timer gameTimer;
+        private System.Diagnostics.EventLog eventLog1;
     }
 }
 

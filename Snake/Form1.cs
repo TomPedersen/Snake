@@ -60,6 +60,72 @@ namespace Snake
             food.YAxis = random.Next(0, maxYPos);
         }
 
+        private void UpdateScreen(object sender, EventArgs e)
+        {
+            //Check for Game Over
+            if (GameSettings.GameOver == true)
+            {
+                //Check if Enter key is pressed
+                if (ControlsInput.KeyPressed(Keys.Enter))
+                {
+                    StartGame();
+                }
+            }
+            else
+            {
+                if(ControlsInput.KeyPressed(Keys.Right) && GameSettings.direction != Direction.Left)
+                    GameSettings.direction = Direction.Right;
+                else if (ControlsInput.KeyPressed(Keys.Left) && GameSettings.direction != Direction.Right)
+                    GameSettings.direction = Direction.Left;
+                else if (ControlsInput.KeyPressed(Keys.Up) && GameSettings.direction != Direction.Down)
+                    GameSettings.direction = Direction.Up;
+                else if (ControlsInput.KeyPressed(Keys.Down) && GameSettings.direction != Direction.Up)
+                    GameSettings.direction = Direction.Down;
+
+                MovePlayer();
+            }
+
+            GameWorld.Invalidate();
+        }
+
+        private void GameWorld_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics canvas = e.Graphics;
+            if (GameSettings.GameOver != false)
+            {
+                //Set colour of snake
+                Brush snakeColour;
+
+                //Draw snake
+                for (int i = 0; i < Snake.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        snakeColour = Brushes.Black; //Draw head
+                    }
+                    else
+                    {
+                        snakeColour = Brushes.Green; //Draw body
+                    }
+
+                    //Draw snake
+                    canvas.FillEllipse(snakeColour,
+                        new Rectangle(Snake[i].XAxis * GameSettings.Width,
+                            Snake[i].YAxis*GameSettings.Height, GameSettings.Width, GameSettings.Height));
+
+                    //Draw food
+
+                    canvas.FillEllipse(Brushes.Red,
+                        new Rectangle(food.YAxis * GameSettings.Width,
+                            GameSettings.Height, GameSettings.Width, GameSettings.Height));
+                }
+            }
+            else
+            {
+                
+            }
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
