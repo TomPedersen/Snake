@@ -34,6 +34,7 @@
             this.labelScore = new System.Windows.Forms.Label();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
+            this.labelGameOver = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GameWorld)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.SuspendLayout();
@@ -72,11 +73,23 @@
             // 
             this.eventLog1.SynchronizingObject = this;
             // 
+            // labelGameOver
+            // 
+            this.labelGameOver.AutoSize = true;
+            this.labelGameOver.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGameOver.Location = new System.Drawing.Point(51, 38);
+            this.labelGameOver.Name = "labelGameOver";
+            this.labelGameOver.Size = new System.Drawing.Size(239, 37);
+            this.labelGameOver.TabIndex = 3;
+            this.labelGameOver.Text = "labelGameOver";
+            this.labelGameOver.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(818, 484);
+            this.Controls.Add(this.labelGameOver);
             this.Controls.Add(this.labelScore);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.GameWorld);
@@ -97,6 +110,7 @@
         private System.Windows.Forms.Label labelScore;
         private System.Windows.Forms.Timer gameTimer;
         private System.Diagnostics.EventLog eventLog1;
+        private System.Windows.Forms.Label labelGameOver;
     }
 }
 

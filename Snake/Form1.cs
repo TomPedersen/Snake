@@ -34,6 +34,7 @@ namespace Snake
 
         private void StartGame()
         {
+            labelGameOver.Visible = false;
             new GameSettings();
 
             //create a new snake object
@@ -122,7 +123,10 @@ namespace Snake
             }
             else
             {
-                
+                string gameOver = "Game over \nYour final score is: " + GameSettings.Score +
+                                  "\nPress Enter to try again";
+                labelGameOver.Text = gameOver;
+                labelGameOver.Visible = true;
             }
         }
 
