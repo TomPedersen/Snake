@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Snake.Properties;
 
 namespace Snake
 {
@@ -35,13 +29,13 @@ namespace Snake
         private void StartGame()
         {
             labelGameOver.Visible = false;
+
+            //Set settings to default
             new GameSettings();
 
             //create a new snake object
             Snake.Clear();
-            SnakeFood head = new SnakeFood();
-            head.XAxis = 10;
-            head.YAxis = 5;
+            SnakeFood head = new SnakeFood {XAxis = 10, YAxis = 5};
             Snake.Add(head);
 
 
@@ -56,15 +50,14 @@ namespace Snake
             int maxYPos = GameWorld.Size.Height/GameSettings.Height;
 
             Random random = new Random();
-            food = new SnakeFood();
-            food.XAxis = random.Next(0, maxXPos);
-            food.YAxis = random.Next(0, maxYPos);
+            food = new SnakeFood(){ XAxis = random.Next(0, maxXPos), YAxis = random.Next(0, maxYPos)};
         }
+
 
         private void UpdateScreen(object sender, EventArgs e)
         {
             //Check for Game Over
-            if (GameSettings.GameOver == true)
+            if (GameSettings.GameOver)
             {
                 //Check if Enter key is pressed
                 if (ControlsInput.KeyPressed(Keys.Enter))
@@ -92,14 +85,14 @@ namespace Snake
         private void GameWorld_Paint(object sender, PaintEventArgs e)
         {
             Graphics canvas = e.Graphics;
-            if (GameSettings.GameOver != false)
+            if (!GameSettings.GameOver)
             {
                 //Set colour of snake
-                Brush snakeColour;
 
                 //Draw snake
                 for (int i = 0; i < Snake.Count; i++)
                 {
+                    Brush snakeColour;
                     if (i == 0)
                     {
                         snakeColour = Brushes.Black; //Draw head
@@ -130,6 +123,68 @@ namespace Snake
             }
         }
 
+        private void MovePlayer()
+        {
+            for (int i = Snake.Count - 1; i >= 0; i--)
+            {
+                if (i == 0)
+                {
+                    //Move head
+                    switch (GameSettings.direction)
+                    {
+                        case Direction.Right:
+                            Snake[i].XAxis++;
+                            break;
+                        case Direction.Left:
+                            Snake[i].XAxis--;
+                            break;
+                        case Direction.Up:
+                            Snake[i].YAxis--;
+                            break;
+                        case Direction.Down:
+                            Snake[i].YAxis++;
+                            break;
+                    }
+   
+                    //Get max X and Y pos (world boundries)
+                    int maxXPos = GameWorld.Size.Width/GameSettings.Width;
+                    int maxYPos = GameWorld.Size.Height / GameSettings.Height;
+
+                    //Detect collision with boundries
+                    if (Snake[i].XAxis < 0 || Snake[i].YAxis < 0
+                        || Snake[i].XAxis >= maxXPos || Snake[i].YAxis >= maxYPos)
+                    {
+                        Die();
+                    }
+
+                    //Detect collision with food
+                    for (int j = 1; j < Snake.Count; j++)
+                    {
+                        if (Snake[0].XAxis == food.XAxis && Snake[0].YAxis == food.YAxis)
+                        {
+                            Eat();
+                        }
+                    }
+                }
+                else
+                {
+                    //Move body
+                    Snake[i].XAxis = Snake[i - 1].XAxis;
+                    Snake[i].YAxis = Snake[i - 1].YAxis;
+                }
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            ControlsInput.ChangeState(e.KeyCode, true);
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            ControlsInput.ChangeState(e.KeyCode, false);
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
@@ -141,6 +196,33 @@ namespace Snake
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Eat()
+        {
+            //Add circle to body
+            SnakeFood food = new SnakeFood();
+            {
+                food.XAxis = Snake[Snake.Count - 1].XAxis;
+                food.YAxis = Snake[Snake.Count - 1].YAxis;
+            };
+            Snake.Add(food);
+
+            //Update Score
+            GameSettings.Score += GameSettings.Points;
+            labelScore.Text = GameSettings.Score.ToString();
+
+            GenerateFood();
+        }
+
+        private void Die()
+        {
+            GameSettings.GameOver = true;
+        }
+
+        private void pbCanvas_Click(object sender, EventArgs e)
         {
 
         }
