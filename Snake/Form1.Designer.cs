@@ -41,12 +41,13 @@
             // 
             // GameWorld
             // 
+            this.GameWorld.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.GameWorld.Location = new System.Drawing.Point(13, 13);
             this.GameWorld.Name = "GameWorld";
             this.GameWorld.Size = new System.Drawing.Size(530, 460);
             this.GameWorld.TabIndex = 0;
             this.GameWorld.TabStop = false;
-            this.GameWorld.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.GameWorld.Click += new System.EventHandler(this.pbCanvas_Click);
             this.GameWorld.Paint += new System.Windows.Forms.PaintEventHandler(this.GameWorld_Paint);
             // 
             // label1
@@ -95,7 +96,8 @@
             this.Controls.Add(this.GameWorld);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.GameWorld)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).EndInit();
             this.ResumeLayout(false);

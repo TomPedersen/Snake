@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Snake
 {
-    class ControlsInput
+    internal class ControlsInput
     {
         //Load list of available keyboard buttons.
         private static Hashtable keyTable = new Hashtable();

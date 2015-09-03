@@ -50,7 +50,7 @@ namespace Snake
             int maxYPos = GameWorld.Size.Height/GameSettings.Height;
 
             Random random = new Random();
-            food = new SnakeFood(){ XAxis = random.Next(0, maxXPos), YAxis = random.Next(0, maxYPos)};
+            food = new SnakeFood { XAxis = random.Next(0, maxXPos), YAxis = random.Next(0, maxYPos)};
         }
 
 
@@ -105,13 +105,15 @@ namespace Snake
                     //Draw snake
                     canvas.FillEllipse(snakeColour,
                         new Rectangle(Snake[i].XAxis * GameSettings.Width,
-                            Snake[i].YAxis*GameSettings.Height, GameSettings.Width, GameSettings.Height));
+                                      Snake[i].YAxis * GameSettings.Height, 
+                                      GameSettings.Width, GameSettings.Height));
 
                     //Draw food
 
                     canvas.FillEllipse(Brushes.Red,
-                        new Rectangle(food.YAxis * GameSettings.Width,
-                            GameSettings.Height, GameSettings.Width, GameSettings.Height));
+                        new Rectangle(food.XAxis * GameSettings.Width,
+                                      food.YAxis * GameSettings.Height,
+                                      GameSettings.Width, GameSettings.Height));
                 }
             }
             else
@@ -127,9 +129,9 @@ namespace Snake
         {
             for (int i = Snake.Count - 1; i >= 0; i--)
             {
+                //Move head
                 if (i == 0)
                 {
-                    //Move head
                     switch (GameSettings.direction)
                     {
                         case Direction.Right:
@@ -157,14 +159,23 @@ namespace Snake
                         Die();
                     }
 
-                    //Detect collision with food
+
+                    //Detect collision with body
                     for (int j = 1; j < Snake.Count; j++)
                     {
-                        if (Snake[0].XAxis == food.XAxis && Snake[0].YAxis == food.YAxis)
+                        if (Snake[i].XAxis == Snake[j].XAxis &&
+                            Snake[i].YAxis == Snake[j].YAxis)
                         {
-                            Eat();
+                            Die();
                         }
                     }
+
+                    //Detect collision with food
+                    if (Snake[0].XAxis == food.XAxis && Snake[0].YAxis == food.YAxis)
+                    {
+                        Eat();
+                    }
+
                 }
                 else
                 {
@@ -185,17 +196,7 @@ namespace Snake
             ControlsInput.ChangeState(e.KeyCode, false);
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
@@ -203,10 +204,10 @@ namespace Snake
         private void Eat()
         {
             //Add circle to body
-            SnakeFood food = new SnakeFood();
+            SnakeFood food = new SnakeFood
             {
-                food.XAxis = Snake[Snake.Count - 1].XAxis;
-                food.YAxis = Snake[Snake.Count - 1].YAxis;
+                XAxis = Snake[Snake.Count - 1].XAxis,
+                YAxis = Snake[Snake.Count - 1].YAxis
             };
             Snake.Add(food);
 
